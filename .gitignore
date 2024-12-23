@@ -412,4 +412,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# MQTT
+feeder-system/mosquitto/data/*
+feeder-system/mosquitto/log/*
+
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,windows,c++,react,pycharm,visualstudiocode
