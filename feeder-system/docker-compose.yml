@@ -1,0 +1,37 @@
+services:
+  mqtt5:
+    image: eclipse-mosquitto
+    container_name: mqtt5
+    ports:
+      - '1885:1885'            # Porta MQTT
+      - '9005:9005'            # Porta WebSocket
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:rw
+      - ./mosquitto/data:/mosquitto/data:rw
+      - ./mosquitto/log:/mosquitto/log:rw
+    restart: unless-stopped
+    networks:
+      - feeder-network          # Specificato esplicitamente la rete
+
+  db:
+    image: postgres:14-alpine
+    container_name: feeder_postgres
+    environment:
+      POSTGRES_USER: feeder_admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: feeder_db
+    ports: 
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data     # Volume per i dati persistenti
+      - ./postgres/init:/docker-entrypoint-initdb.d  # Volume per script inizializzazione
+    restart: unless-stopped            # Aggiunta politica di restart
+    networks:
+      - feeder-network                 # Specificato esplicitamente la rete
+
+volumes:
+  postgres_data:    # Aggiunto volume dedicato per PostgreSQL
+  
+networks:
+  mqtt5-network:    # Definizione esplicita della rete
+    name: feeder-network
