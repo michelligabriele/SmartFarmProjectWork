@@ -33,5 +33,5 @@ volumes:
   postgres_data:    # Aggiunto volume dedicato per PostgreSQL
   
 networks:
-  mqtt5-network:    # Definizione esplicita della rete
+  feeder-network:    # Definizione esplicita della rete
     name: feeder-network
