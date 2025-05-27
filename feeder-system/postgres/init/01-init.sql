@@ -7,7 +7,7 @@ CREATE TABLE "assets" (
 
 CREATE TABLE "states" (
   "id" int PRIMARY KEY,
-  "asset_id" int,
+  "asset_id" int),
   "param" varchar(255) NOT NULL,
   "value" varchar(255) NOT NULL,
   "lastupdate" timestamptz DEFAULT (now())
@@ -20,6 +20,13 @@ CREATE TABLE "history" (
   "active_time" interval NOT NULL
 );
 
+CREATE TABLE "consumptions" (
+  "id" int PRIMARY KEY,
+  "type" varchar(255) NOT NULL,
+  "cost" float NOT NULL,
+  "asset_id" int
+)
+
 CREATE UNIQUE INDEX ON "assets" ("name");
 
 CREATE INDEX ON "assets" ("type");
@@ -31,3 +38,5 @@ CREATE INDEX ON "history" ("active_time");
 ALTER TABLE "states" ADD FOREIGN KEY ("asset_id") REFERENCES "assets" ("id");
 
 ALTER TABLE "history" ADD FOREIGN KEY ("asset_id") REFERENCES "assets" ("id");
+
+ALTER TABLE "consumptions" ADD FOREIGN KEY ("asset_id") REFERENCES "assets" ("id");
